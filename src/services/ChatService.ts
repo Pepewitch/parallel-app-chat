@@ -1,17 +1,22 @@
 import SocketIOClient from 'socket.io-client';
+import { Message } from '../types/Chat';
 
 export default class ChatService {
-  public static getSocket() {
-    if (this.socket) {
-      return this.socket;
+  public static getSocket(namespace = '') {
+    if (!this.socketDict[namespace]) {
+      this.socketDict[namespace] = SocketIOClient(
+        `http://localhost:8080/${namespace}`,
+      );
     }
-    this.socket = SocketIOClient(this.getEndpoint());
-  }
-  public static getEndpoint() {
-    return 'http://localhost:4001';
+    return this.socketDict[namespace];
   }
   public static send(text: string) {
-    console.log(text);
+    const message: Message = {
+      text,
+      sender: 'eiei',
+      timestamp: new Date(),
+    };
+    this.getSocket('chat').emit('message', message);
   }
-  private static socket: SocketIOClient.Socket;
+  private static socketDict: { [namespace: string]: SocketIOClient.Socket } = {};
 }

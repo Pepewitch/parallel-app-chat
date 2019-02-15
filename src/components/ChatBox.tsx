@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ChatBox.module.css';
 import { Message } from '../types/Chat';
 import { ReactComponent as Send } from '../assets/icons/baseline-send-24px.svg';
@@ -60,7 +60,16 @@ const ChatBox = () => {
   for (let i = 0; i < 20; i++) {
     messages.push({ sender: 'sender', text: 'text', timestamp: new Date() });
   }
+  useEffect(() => {
+    const chatHandler = (message: Message) => {
+      console.log(message);
+    };
+    ChatService.getSocket('chat').on('message', chatHandler);
 
+    return () => {
+      ChatService.getSocket('chat').removeListener('message', chatHandler);
+    };
+  }, []);
   return (
     <div className={styles.container}>
       <TextBox messages={messages} />
