@@ -1,14 +1,11 @@
 import SocketIOClient from 'socket.io-client';
 import { Message } from '../types/Chat';
+import SocketService from './SocketService';
+import { useState, useEffect } from 'react';
 
 export default class ChatService {
-  public static getSocket(namespace = '') {
-    if (!this.socketDict[namespace]) {
-      this.socketDict[namespace] = SocketIOClient(
-        `http://localhost:8080/${namespace}`,
-      );
-    }
-    return this.socketDict[namespace];
+  public static getSocket() {
+    return SocketService.getSocket(['chat']);
   }
   public static send(text: string) {
     const message: Message = {
@@ -16,7 +13,21 @@ export default class ChatService {
       sender: 'eiei',
       timestamp: new Date(),
     };
-    this.getSocket('chat').emit('message', message);
+    this.getSocket().emit('message', message);
   }
-  private static socketDict: { [namespace: string]: SocketIOClient.Socket } = {};
+  public static useMessages() {
+    const [messages] = useState<Message[]>([]);
+    const [key, setKey] = useState(Math.random());
+    useEffect(() => {
+      const chatHandler = (message: Message) => {
+        messages.push(message);
+        setKey(Math.random());
+      };
+      this.getSocket().on('message', chatHandler);
+      return () => {
+        this.getSocket().removeListener('message', chatHandler);
+      };
+    }, []);
+    return { messages };
+  }
 }
