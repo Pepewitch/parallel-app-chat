@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import styles from './App.module.css';
-import ChatBox from './components/ChatBox';
+import { Switch, Route, Redirect } from 'react-router';
+import Home from './views/Home';
+import ChatRoom from './views/ChatRoom';
 
 class App extends Component {
   render() {
     return (
-      <div className={styles.container}>
-        <ChatBox />
-      </div>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/:roomName" component={ChatRoom} />
+        <Redirect to="/" />
+      </Switch>
     );
   }
 }
