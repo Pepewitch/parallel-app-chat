@@ -4,10 +4,15 @@ import { ReactComponent as Send } from '../../assets/icons/baseline-send-24px.sv
 import ChatService from '../../services/ChatService';
 import styles from './TypingBox.module.css';
 
-const TypingBox = () => {
+interface TypingBoxProps {
+  room: string;
+}
+
+const TypingBox = (props: TypingBoxProps) => {
+  const { room } = props;
   const [text, setText] = useState('');
   const send = () => {
-    ChatService.send(text);
+    ChatService.send(text, room);
     setText('');
   };
   return (

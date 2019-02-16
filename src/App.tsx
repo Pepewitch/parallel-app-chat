@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/:roomName" component={ChatRoom} />
+        <Route path="/chat/:roomName" component={ChatRoom} />
         <Redirect to="/" />
       </Switch>
     );

@@ -10,12 +10,11 @@ interface ChatBoxProps {
 
 const ChatBox = (props: ChatBoxProps) => {
   const { room } = props;
-  console.log(room);
-  const { messages } = ChatService.useMessages();
+  const { messages } = ChatService.useMessages(room);
   return (
     <div className={styles.container}>
       <TextBox messages={messages} />
-      <TypingBox />
+      <TypingBox room={room} />
     </div>
   );
 };
