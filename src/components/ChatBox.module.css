@@ -4,6 +4,12 @@
   flex-flow: column nowrap;
 }
 
+.textbox_container {
+  height: 600px;
+  overflow-y: auto;
+  border: 1px solid #888888;
+}
+
 .typing_container {
   width: 100%;
   flex-flow: row nowrap;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import styles from './ChatBox.module.css';
 import { Message } from '../types/Chat';
 import { ReactComponent as Send } from '../assets/icons/baseline-send-24px.svg';
@@ -11,7 +11,6 @@ interface TextBoxProps {
 const TypingBox = () => {
   const [text, setText] = useState('');
   const send = () => {
-    console.log(text.length);
     ChatService.send(text);
     setText('');
   };
@@ -40,8 +39,14 @@ const TypingBox = () => {
 
 const TextBox = (props: TextBoxProps) => {
   const { messages } = props;
+  const container = createRef<HTMLDivElement>();
+  useEffect(() => {
+    if (container.current) {
+      container.current.scrollTop = container.current.scrollHeight;
+    }
+  });
   return (
-    <div className={styles.container}>
+    <div className={styles.textbox_container} ref={container}>
       {messages.map((message, index) => (
         <div
           key={`${index}${message.timestamp}`}
@@ -56,20 +61,7 @@ const TextBox = (props: TextBoxProps) => {
 };
 
 const ChatBox = () => {
-  const messages = [];
-  for (let i = 0; i < 20; i++) {
-    messages.push({ sender: 'sender', text: 'text', timestamp: new Date() });
-  }
-  useEffect(() => {
-    const chatHandler = (message: Message) => {
-      console.log(message);
-    };
-    ChatService.getSocket('chat').on('message', chatHandler);
-
-    return () => {
-      ChatService.getSocket('chat').removeListener('message', chatHandler);
-    };
-  }, []);
+  const { messages } = ChatService.useMessages();
   return (
     <div className={styles.container}>
       <TextBox messages={messages} />
