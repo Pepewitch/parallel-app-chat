@@ -4,7 +4,13 @@ import ChatService from '../../services/ChatService';
 import TextBox from './TextBox';
 import TypingBox from './TypingBox';
 
-const ChatBox = () => {
+interface ChatBoxProps {
+  room: string;
+}
+
+const ChatBox = (props: ChatBoxProps) => {
+  const { room } = props;
+  console.log(room);
   const { messages } = ChatService.useMessages();
   return (
     <div className={styles.container}>

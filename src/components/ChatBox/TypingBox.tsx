@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Message } from '../../types/Chat';
-import { ReactComponent as Send } from '../assets/icons/baseline-send-24px.svg';
+import { ReactComponent as Send } from '../../assets/icons/baseline-send-24px.svg';
 import ChatService from '../../services/ChatService';
 import styles from './TypingBox.module.css';
 
