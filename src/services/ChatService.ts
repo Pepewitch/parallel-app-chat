@@ -3,8 +3,8 @@ import SocketService from './SocketService';
 import { useState, useEffect } from 'react';
 
 export default class ChatService {
-  public static getSocket() {
-    const socket = SocketService.getSocket(['chat']);
+  public static getSocket(roomId: string) {
+    const socket = SocketService.getSocket(['chat'], { roomId });
     return socket;
   }
   public static send(text: string, roomId: string) {
@@ -13,7 +13,7 @@ export default class ChatService {
       sender: 'eiei',
       timestamp: new Date(),
     };
-    this.getSocket().emit('message', { roomId, message });
+    this.getSocket(roomId).emit('message', { roomId, message });
   }
   public static useMessages(room = 'global') {
     const [messages] = useState<Message[]>([]);
@@ -23,7 +23,7 @@ export default class ChatService {
         messages.push(message);
         setKey([]);
       };
-      const socket = this.getSocket();
+      const socket = this.getSocket(room);
       socket.emit('join', room);
       socket.on('message', chatHandler);
       return () => {
