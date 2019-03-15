@@ -6,15 +6,17 @@ import TypingBox from './TypingBox';
 
 interface ChatBoxProps {
   room: string;
+  username: string;
 }
 
 const ChatBox = (props: ChatBoxProps) => {
-  const { room } = props;
-  const { messages } = ChatService.useMessages(room);
+  const { room, username } = props;
+  const { messages } = ChatService.useMessages(username, room);
+  console.log(messages);
   return (
     <div className={styles.container}>
       <TextBox messages={messages} />
-      <TypingBox room={room} />
+      <TypingBox room={room} username={username} />
     </div>
   );
 };

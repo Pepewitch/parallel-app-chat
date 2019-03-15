@@ -6,13 +6,14 @@ import styles from './TypingBox.module.css';
 
 interface TypingBoxProps {
   room: string;
+  username: string;
 }
 
 const TypingBox = (props: TypingBoxProps) => {
-  const { room } = props;
+  const { room, username } = props;
   const [text, setText] = useState('');
   const send = () => {
-    ChatService.send(text, room);
+    ChatService.send(text, room, username);
     setText('');
   };
   return (
