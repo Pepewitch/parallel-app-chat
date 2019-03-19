@@ -12,11 +12,20 @@ interface ChatBoxProps {
 const ChatBox = (props: ChatBoxProps) => {
   const { room, username } = props;
   const { messages } = ChatService.useMessages(username, room);
-  console.log(messages);
+  const lastRead = ChatService.useRead(username, room);
   return (
     <div className={styles.container}>
-      <TextBox messages={messages} />
-      <TypingBox room={room} username={username} />
+      <TextBox messages={messages} lastRead={lastRead} />
+      <TypingBox
+        room={room}
+        username={username}
+        onSubmit={() => {
+          ChatService.read(username, room);
+        }}
+        onFocus={() => {
+          ChatService.read(username, room);
+        }}
+      />
     </div>
   );
 };

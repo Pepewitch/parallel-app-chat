@@ -7,13 +7,16 @@ import styles from './TypingBox.module.css';
 interface TypingBoxProps {
   room: string;
   username: string;
+  onFocus: () => any;
+  onSubmit: () => any;
 }
 
 const TypingBox = (props: TypingBoxProps) => {
-  const { room, username } = props;
+  const { room, username, onFocus, onSubmit } = props;
   const [text, setText] = useState('');
   const send = () => {
     ChatService.send(text, room, username);
+    onSubmit();
     setText('');
   };
   return (
@@ -26,6 +29,7 @@ const TypingBox = (props: TypingBoxProps) => {
     >
       <input
         value={text}
+        onFocus={onFocus}
         onChange={e => setText(e.target.value)}
         className={styles.text_input}
       />

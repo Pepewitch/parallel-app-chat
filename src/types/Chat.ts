@@ -15,3 +15,9 @@ export interface Read {
   roomId: string;
   lastRead: Date;
 }
+
+export interface ReadEvent {
+  roomId: string;
+  date: Date;
+  username: string;
+}

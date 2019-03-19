@@ -1,4 +1,4 @@
-import { Message, InitialMessage } from '../types/Chat';
+import { Message, InitialMessage, ReadEvent } from '../types/Chat';
 import SocketService from './SocketService';
 import { useState, useEffect } from 'react';
 
@@ -19,11 +19,8 @@ export default class ChatService {
   public static useMessages(username: string, room = 'global') {
     const [messages, setMessage] = useState<Message[]>([]);
     const [key, setKey] = useState([]);
-    console.log('hello');
     useEffect(() => {
       const chatHandler = (message: Message) => {
-        console.log({ message, messages });
-        // setMessage([...messages, message]);
         if (message.roomId === room) {
           messages.push(message);
           setKey([]);
@@ -31,16 +28,18 @@ export default class ChatService {
       };
       const initConnectionHandler = (event: InitialMessage) => {
         const { read, messages: incomingMessages } = event;
-        // console.log(event);
-        // setMessage([...incomingMessages]);
         for (const i of incomingMessages) {
           messages.push(i);
         }
         setKey([]);
       };
       const socket = this.getSocket(room, username);
+      socket.on('connect', () => {
+        console.log('hello');
+        socket.emit('join', room);
+      });
       socket.on('initial', initConnectionHandler);
-      socket.emit('join', room);
+      socket.emit('initialConnection', { roomId: room });
       socket.on('message', chatHandler);
       return () => {
         socket.removeListener('message', chatHandler);
@@ -48,5 +47,24 @@ export default class ChatService {
       };
     }, []);
     return { messages };
+  }
+  public static useRead(username: string, room = 'global') {
+    const [lastRead, setLastRead] = useState<Date>(new Date());
+    useEffect(() => {
+      const socket = this.getSocket(room, username);
+      const updateReadHandler = (event: ReadEvent) => {
+        const { roomId } = event;
+        if (roomId === room && username === event.username) {
+          const date = new Date(event.date);
+          setLastRead(date);
+        }
+      };
+      socket.on('updateRead', updateReadHandler);
+      this.read(username, room);
+    }, []);
+    return lastRead;
+  }
+  public static read(username: string, roomId: string) {
+    this.getSocket(roomId, username).emit('read', roomId);
   }
 }

@@ -11,7 +11,7 @@ export default class SocketService {
     }
     if (!this.socketDict[stringNamespace]) {
       this.socketDict[stringNamespace] = SocketIOClient(
-        `http://localhost:8080/${stringNamespace}`,
+        `http://localhost:80/${stringNamespace}`,
         { query },
       );
     }
