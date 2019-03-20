@@ -29,7 +29,7 @@ const TextBox = (props: TextBoxProps) => {
           >
             <span className={styles.sender}> {message.sender} :</span>{' '}
             <span>{message.text}</span>
-            {message.timestamp < lastRead ? '(READ)' : null}
+            {message.timestamp < lastRead ? '(READ)' +" "+ message.timestamp.getHours() + ":"+message.timestamp.getMinutes() : null}
           </div>
         ))}
     </div>

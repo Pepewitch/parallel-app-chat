@@ -61,6 +61,7 @@ export default class ChatService {
         if (roomId === room && username === event.username) {
           const date = new Date(event.date);
           setLastRead(date);
+          
         }
       };
       socket.on('updateRead', updateReadHandler);
@@ -69,7 +70,7 @@ export default class ChatService {
         socket.removeListener('updateRead', updateReadHandler);
       };
     }, []);
-    return lastRead;
+    return lastRead
   }
   public static read(username: string, roomId: string) {
     this.getSocket(roomId, username).emit('read', roomId);
