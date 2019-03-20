@@ -26,24 +26,27 @@ export default class ChatService {
           setKey([]);
         }
       };
-      const initConnectionHandler = (event: InitialMessage) => {
-        const { read, messages: incomingMessages } = event;
-        for (const i of incomingMessages) {
-          messages.push(i);
+      const initHandler = (event: InitialMessage) => {
+        if (event.roomId === room) {
+          const { read, messages: incomingMessages } = event;
+          for (const i of incomingMessages) {
+            messages.push(i);
+          }
+          setKey([]);
         }
-        setKey([]);
+      };
+      const connectionHandler = () => {
+        socket.emit('join', room);
       };
       const socket = this.getSocket(room, username);
-      socket.on('connect', () => {
-        console.log('hello');
-        socket.emit('join', room);
-      });
-      socket.on('initial', initConnectionHandler);
-      socket.emit('initialConnection', { roomId: room });
+      socket.on('connect', connectionHandler);
+      socket.on('initial', initHandler);
       socket.on('message', chatHandler);
+      socket.emit('initialConnection', { roomId: room });
       return () => {
         socket.removeListener('message', chatHandler);
-        socket.removeListener('initial', initConnectionHandler);
+        socket.removeListener('initial', initHandler);
+        socket.removeListener('connect', connectionHandler);
         socket.emit('leave', room);
       };
     }, []);
@@ -62,6 +65,9 @@ export default class ChatService {
       };
       socket.on('updateRead', updateReadHandler);
       this.read(username, room);
+      return () => {
+        socket.removeListener('updateRead', updateReadHandler);
+      };
     }, []);
     return lastRead;
   }

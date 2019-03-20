@@ -6,6 +6,7 @@ export interface Message {
 }
 
 export interface InitialMessage {
+  roomId: string;
   read: Read;
   messages: Message[];
 }
