@@ -74,7 +74,7 @@ const Home = () => {
               {roomList.map((roomName, key) => {
                 return (
                   <div className="col-3 ml-2 mr-2" key={roomName}>
-                    <button
+                    <button className="btn btn-secondary"
                       onClick={() => {
                         setRoomList(roomList.filter(e => e !== roomName));
                       }}
