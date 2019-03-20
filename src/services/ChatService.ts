@@ -44,6 +44,7 @@ export default class ChatService {
       return () => {
         socket.removeListener('message', chatHandler);
         socket.removeListener('initial', initConnectionHandler);
+        socket.emit('leave', room);
       };
     }, []);
     return { messages };

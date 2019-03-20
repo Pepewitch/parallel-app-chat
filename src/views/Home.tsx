@@ -30,7 +30,7 @@ const Home = () => {
             onSubmit={e => {
               e.preventDefault();
               // history.push(`/${roomName}`)
-              setRoomList([...roomList, roomName]);
+              setRoomList([...roomList.filter(e => e !== roomName), roomName]);
               setRoomName('');
             }}
           >
