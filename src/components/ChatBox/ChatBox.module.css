@@ -1,14 +1,14 @@
 .container {
   width: 100%;
-  max-width: 300px;
+  max-width: 500px;
   display: flex;
   flex-flow: column nowrap;
 }
 
 
 .head {
-  border-radius: 5px 5px 0px 0px;
-  background-color: rgb(45, 54, 73);
+  
+  background-color: #343a40;
   color: white;
   height: 40px;
   display: flex;

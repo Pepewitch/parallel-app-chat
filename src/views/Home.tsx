@@ -7,7 +7,17 @@ const Home = () => {
   const [roomName, setRoomName] = useState('');
   const [roomList, setRoomList] = useState<string[]>([]);
   const [username, setUsername] = useState('');
+  const [room, setRoom] = useState('');
   const userRef = createRef<HTMLInputElement>();
+  const btnStyle = {
+      width: '151px',
+   
+    
+  };
+  const btnLeave = {
+      width:'79px'
+     
+  }
 
   const roomPanal = username ? (
     <form
@@ -49,7 +59,7 @@ const Home = () => {
     </form>
   );
   const navbar = (
-    <nav className="navbar navbar-light bg-light">
+    <nav className="navbar navbar-dark bg-dark">
       <a className="navbar-brand" href="#">
         <img
           src="/docs/4.3/assets/brand/bootstrap-solid.svg"
@@ -58,7 +68,7 @@ const Home = () => {
           className="d-inline-block align-top"
           alt=""
         />
-        Parallel JAAA
+        Parallel ChitChat
       </a>
       {roomPanal}
       {userPanal}
@@ -69,22 +79,32 @@ const Home = () => {
       {navbar}
       {username ? (
         <>
-          <div className="container pt-5">
+          <div className="">
             <div className="row">
+            <div className="col-2 pr-0">
               {roomList.map((roomName, key) => {
                 return (
-                  <div className="col-3 ml-2 mr-2" key={roomName}>
-                    <button className="btn btn-secondary"
+                  <div className="d-flex flex-column" key={roomName}>
+                  <div>
+                   <button className = "btn btn-success"  style = {btnStyle} onClick = { e =>setRoom(roomName)}>
+                   {roomName}
+                    
+                    </button>
+                    <button className="btn btn-danger" style={btnLeave}
                       onClick={() => {
                         setRoomList(roomList.filter(e => e !== roomName));
                       }}
                     >
                       leave
                     </button>
-                    <ChatBox room={roomName} username={username} />
+                    </div>
                   </div>
                 );
               })}
+              </div>
+              <div className="col-10 pl-0">
+                  <ChatBox room = {room} username={username}/>
+              </div>
             </div>
           </div>
         </>

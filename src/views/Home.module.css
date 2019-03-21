@@ -11,3 +11,7 @@
   display: flex;
   flex-flow: row wrap;
 }
+
+.block{
+  border-radius: 0px;
+}
