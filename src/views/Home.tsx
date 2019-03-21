@@ -18,6 +18,9 @@ const Home = () => {
       width:'79px'
      
   }
+  const white = {
+    color:'white'
+  }
 
   const roomPanal = username ? (
     <form
@@ -41,7 +44,7 @@ const Home = () => {
   );
 
   const userPanal = username ? (
-    <div>Username : {username}</div>
+    <div style={white}>Username : {username}</div>
   ) : (
     <form
       style={{ display: username ? 'none' : 'static' }}
