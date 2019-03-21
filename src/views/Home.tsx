@@ -10,12 +10,16 @@ const Home = () => {
   const [room, setRoom] = useState('');
   const userRef = createRef<HTMLInputElement>();
   const btnStyle = {
-      width: '151px',
-   
+      height:'20px',
+  
+      border: 'solid 1px black',
+      margin:'0px'
     
   };
   const btnLeave = {
-      width:'79px'
+      height:'20px',
+      border: 'solid 1px black',
+      margin:'0px'
      
   }
   const white = {
@@ -88,18 +92,18 @@ const Home = () => {
               {roomList.map((roomName, key) => {
                 return (
                   <div className="d-flex flex-column" key={roomName}>
-                  <div>
-                   <button className = "btn btn-success"  style = {btnStyle} onClick = { e =>setRoom(roomName)}>
+                  <div className="d-flex flex-row">
+                   <div className={styles.block1} onClick = { e =>setRoom(roomName)}>
                    {roomName}
                     
-                    </button>
-                    <button className="btn btn-danger" style={btnLeave}
+                    </div>
+                    <div className= {styles.block2}
                       onClick={() => {
                         setRoomList(roomList.filter(e => e !== roomName));
                       }}
                     >
                       leave
-                    </button>
+                    </div>
                     </div>
                   </div>
                 );

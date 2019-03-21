@@ -12,6 +12,17 @@
   flex-flow: row wrap;
 }
 
-.block{
-  border-radius: 0px;
+.block1{
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid gray;
+  padding: 0 25px;
+  width: 151px;
+}
+.block2{
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid gray;
+  padding: 0 25px;
+  width: 79px;
 }
