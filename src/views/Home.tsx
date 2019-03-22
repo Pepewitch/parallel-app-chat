@@ -33,6 +33,7 @@ const Home = () => {
         // history.push(`/${roomName}`)
         setRoomList([...roomList.filter(e => e !== roomName), roomName]);
         setRoomName('');
+        setRoom(roomName);
       }}
     >
       <input
@@ -41,6 +42,7 @@ const Home = () => {
         type="text"
         placeholder="Room Name"
         className="form-control"
+        
       />
     </form>
   ) : (
@@ -109,9 +111,9 @@ const Home = () => {
                 );
               })}
               </div>
-              <div className="col-10 pl-0">
+              {roomList.length > 0 ? <div key={room} className="col-10 pl-0">
                   <ChatBox room = {room} username={username}/>
-              </div>
+              </div>: null}
             </div>
           </div>
         </>
