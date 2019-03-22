@@ -7,7 +7,24 @@ const Home = () => {
   const [roomName, setRoomName] = useState('');
   const [roomList, setRoomList] = useState<string[]>([]);
   const [username, setUsername] = useState('');
+  const [room, setRoom] = useState('');
   const userRef = createRef<HTMLInputElement>();
+  const btnStyle = {
+      height:'20px',
+  
+      border: 'solid 1px black',
+      margin:'0px'
+    
+  };
+  const btnLeave = {
+      height:'20px',
+      border: 'solid 1px black',
+      margin:'0px'
+     
+  }
+  const white = {
+    color:'white'
+  }
 
   const roomPanal = username ? (
     <form
@@ -16,6 +33,7 @@ const Home = () => {
         // history.push(`/${roomName}`)
         setRoomList([...roomList.filter(e => e !== roomName), roomName]);
         setRoomName('');
+        setRoom(roomName);
       }}
     >
       <input
@@ -24,6 +42,7 @@ const Home = () => {
         type="text"
         placeholder="Room Name"
         className="form-control"
+        
       />
     </form>
   ) : (
@@ -31,7 +50,7 @@ const Home = () => {
   );
 
   const userPanal = username ? (
-    <div>Username : {username}</div>
+    <div style={white}>Username : {username}</div>
   ) : (
     <form
       style={{ display: username ? 'none' : 'static' }}
@@ -49,7 +68,7 @@ const Home = () => {
     </form>
   );
   const navbar = (
-    <nav className="navbar navbar-light bg-light">
+    <nav className="navbar navbar-dark bg-dark">
       <a className="navbar-brand" href="#">
         <img
           src="/docs/4.3/assets/brand/bootstrap-solid.svg"
@@ -58,7 +77,7 @@ const Home = () => {
           className="d-inline-block align-top"
           alt=""
         />
-        Parallel JAAA
+        Parallel ChitChat
       </a>
       {roomPanal}
       {userPanal}
@@ -69,22 +88,32 @@ const Home = () => {
       {navbar}
       {username ? (
         <>
-          <div className="container pt-5">
+          <div className="">
             <div className="row">
+            <div className="col-2 pr-0">
               {roomList.map((roomName, key) => {
                 return (
-                  <div className="col-3 ml-2 mr-2" key={roomName}>
-                    <button className="btn btn-secondary"
+                  <div className="d-flex flex-column" key={roomName}>
+                  <div className="d-flex flex-row">
+                   <div className={styles.block1} onClick = { e =>setRoom(roomName)}>
+                   {roomName}
+                    
+                    </div>
+                    <div className= {styles.block2}
                       onClick={() => {
                         setRoomList(roomList.filter(e => e !== roomName));
                       }}
                     >
                       leave
-                    </button>
-                    <ChatBox room={roomName} username={username} />
+                    </div>
+                    </div>
                   </div>
                 );
               })}
+              </div>
+              {roomList.length > 0 ? <div key={room} className="col-10 pl-0">
+                  <ChatBox room = {room} username={username}/>
+              </div>: null}
             </div>
           </div>
         </>

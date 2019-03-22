@@ -11,3 +11,31 @@
   display: flex;
   flex-flow: row wrap;
 }
+
+.block1{
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid gray;
+  padding: 0 25px;
+  width: 151px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  background-color: #343a40;
+  color: aliceblue;
+ 
+}
+.block2{
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid gray;
+  padding: 0 25px;
+  width: 79px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  
+
+}
